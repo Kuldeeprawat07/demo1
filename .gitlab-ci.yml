@@ -37,7 +37,7 @@ pages:
   script:
     - mkdir -p public
     - mv dist/demo-ng-app/* public/
-    #- rm public/*.map
+    - rm public/*.map
   artifacts:
     paths:
       - public
