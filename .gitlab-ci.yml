@@ -22,7 +22,7 @@ sentry_job:
   image: getsentry/sentry-cli
   script:
     - echo "Create a new release $CI_COMMIT_SHA"
-    #- export SENTRY_URL=$SENTRY_BASE_URL
+    - export SENTRY_URL=$SENTRY_BASE_URL
     - export SENTRY_AUTH_TOKEN=$SENTRY_BASE_TOKEN
     - export SENTRY_ORG=$SENTRY_BASE_ORGANIZATION
     - export SENTRY_PROJECT=$SENTRY_BASE_PROJECT
