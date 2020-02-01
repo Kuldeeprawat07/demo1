@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'demo-ng-app';
+  title = 'demo-ng-app2';
 
   raiseError() {
     throw new Error('Oops something went wrong');

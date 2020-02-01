@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import * as Sentry from '@sentry/browser';
 
 Sentry.init({
-  dsn: 'https://e94479259c7e435fadfa0eb3c0ad69ee@sentry.io/2146128'
+  dsn: 'https://922e95bb4d7043ada0021b209a805a1f@sentry.io/2153847'
 });
 
 @Injectable()
