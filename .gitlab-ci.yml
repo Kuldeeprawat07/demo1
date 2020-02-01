@@ -1,0 +1,43 @@
+
+image: node:alpine
+
+stages:
+  - build
+  - sentry
+  - deploy
+
+build_job:
+  stage: build
+  before_script:
+    - sed -ri "s|\"VERSION\"|\"$CI_COMMIT_SHA\"|" src/environments/environment.prod.ts
+  script:
+    - npm ci
+    - $(npm bin)/ng build --prod --base-href=/demo-ng-app/
+  artifacts:
+    paths:
+      - dist/
+
+sentry_job:
+  stage: sentry
+  image: getsentry/sentry-cli
+  script:
+    - echo "Create a new release $CI_COMMIT_SHA"
+    #- export SENTRY_URL=$SENTRY_BASE_URL
+    - export SENTRY_AUTH_TOKEN=$SENTRY_BASE_TOKEN
+    - export SENTRY_ORG=$SENTRY_BASE_ORGANIZATION
+    - export SENTRY_PROJECT=$SENTRY_BASE_PROJECT
+    - sentry-cli releases new $CI_COMMIT_SHA
+    - sentry-cli releases set-commits --auto $CI_COMMIT_SHA
+    - sentry-cli releases files $CI_COMMIT_SHA upload-sourcemaps $CI_PROJECT_DIR/dist -x .js -x .map --validate --verbose --rewrite --strip-common-prefix
+    - sentry-cli releases finalize $CI_COMMIT_SHA
+    - echo "Finalized release for $CI_COMMIT_SHA"
+
+pages:
+  stage: deploy
+  script:
+    - mkdir -p public
+    - mv dist/demo-ng-app/* public/
+    - rm public/*.map
+  artifacts:
+    paths:
+      - public
