@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'demo-ng-app';
+
+  raiseError() {
+    throw new Error('Oops something went wrong');
+  }
 }
